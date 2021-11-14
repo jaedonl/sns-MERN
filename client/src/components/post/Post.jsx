@@ -6,7 +6,7 @@ import { Users } from "../../data/dummyData"
 const Post = ({ post }) => {
     const [like, setLike] = useState(post.like)
     const [isLike, setIsLike] = useState(false)
-    const [comment, setComment] = useState(post.comment)
+    const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER
     
     const likeHandler = () => {
         setIsLike(!isLike)
@@ -19,7 +19,7 @@ const Post = ({ post }) => {
                 <div className="postTop">
                     <div className="postTopLeft">
                         <img className="postProfileImg" src=
-                            { Users.filter((u) => u.id === post.userId)[0].profilePicture }
+                            { publicFolder + Users.filter((u) => u.id === post.userId)[0].profilePicture }
                         />
                         <span className="postUsername">
                             { Users.filter((u) => u.id === post.userId)[0].username }
@@ -33,7 +33,7 @@ const Post = ({ post }) => {
                 
                 <div className="postCenter">
                     { post.desc ? <span className="postText">{post.desc}</span> : null}                    
-                    { post.photo ? <img className="postImg" src={post.photo} alt="" /> : null }                    
+                    { post.photo ? <img className="postImg" src={publicFolder + post.photo} alt="" /> : null }                     
                 </div>
                 
                 <div className="postBottom">
@@ -44,7 +44,7 @@ const Post = ({ post }) => {
                     </div>
 
                     <div className="postBottomRight">
-                        <span className="postCommentText">{comment} comments</span>            
+                        <span className="postCommentText">{post.comment} comments</span>            
                     </div>
                 </div>
             </div>

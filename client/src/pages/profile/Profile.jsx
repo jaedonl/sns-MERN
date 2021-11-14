@@ -8,7 +8,9 @@ import {} from "@material-ui/icons"
 
 
 const Profile = () => {
+    const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER
 
+    console.log(publicFolder)
     return (
         <>
             <Topbar />
@@ -17,8 +19,8 @@ const Profile = () => {
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                            <img className="profileCoverImg" src="/assets/profilecover/cover1.jpg" alt="" />
-                            <img className="profileUserImg" src="/assets/person/jaedon_profile.jpg" alt="" />
+                            <img className="profileCoverImg" src={`${publicFolder}profilecover/cover1.jpg`} alt="" />
+                            <img className="profileUserImg" src={`${publicFolder}/person/jaedon_profile.jpg`} alt="" />
                         </div>                
                         <div className="profileInfo">
                             <h4 className="profileInfoName">Jaedon Lee</h4>
