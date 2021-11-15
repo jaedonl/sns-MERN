@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useContext, useRef } from 'react'
 import "./Login.scss" 
+import { loginCall } from '../../apiCalls'
+import { AuthContext } from '../../context/AuthContext'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Login = () => {
+    const email = useRef()
+    const password = useRef()
+    const {user, isFetching, error, dispatch} = useContext(AuthContext)
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        loginCall({ email: email.current.value, password: password.current.value }, dispatch)
+    }
+    
+    console.log(user)
+
     return (
         <div className="login">
             <div className="loginWrapper">
@@ -11,14 +25,32 @@ const Login = () => {
                 </div>
 
                 <div className="loginRight">
-                    <div className="loginBox">
-                        <input placeholder="Email" className="loginInput" />
-                        <input placeholder="Password" className="loginInput" />
+                    <form className="loginBox" onSubmit={handleSubmit}>
+                        <input 
+                            type="email"
+                            required 
+                            placeholder="Email" 
+                            className="loginInput" 
+                            ref={email} 
+                        />
+                        <input 
+                            type="password"
+                            required 
+                            minLength="6"
+                            placeholder="Password" 
+                            className="loginInput" 
+                            ref={password} 
+                        />
 
-                        <button className="loginButton">Login</button>
+                        <button className="loginButton" disabled={isFetching}>
+                            {isFetching ? <CircularProgress color="white" size="20px" /> : "Login"}
+                        </button>
+
                         <span className="loginForgot">Forgot Password?</span>
-                        <button className="loginRegisterButton">Create a Account</button>
-                    </div>
+                        <button className="loginRegisterButton">
+                            {isFetching ? <CircularProgress color="white" size="20px" /> : "Create an Account"}
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
