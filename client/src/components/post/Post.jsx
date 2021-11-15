@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'
 import "./Post.scss" 
 import { MoreVert, ThumbUp, Favorite } from "@material-ui/icons"
-import { Users } from "../../data/dummyData"
+import axios from 'axios';
+import {format} from 'timeago.js'
 
 const Post = ({ post }) => {
-    const [like, setLike] = useState(post.like)
+    const [like, setLike] = useState(post.likes.length)
     const [isLike, setIsLike] = useState(false)
-    const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER
+    const [user, setUser] = useState({})
+    const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER   
+
+    useEffect(() => {        
+        const fetchUser = async () => {
+            const res = await axios.get(`/users?userId=${post.userId}`)
+            setUser(res.data)            
+        }
+        fetchUser()
+    }, [post.userId])
     
     const likeHandler = () => {
         setIsLike(!isLike)
@@ -18,13 +29,13 @@ const Post = ({ post }) => {
             <div className="postWrapper">
                 <div className="postTop">
                     <div className="postTopLeft">
-                        <img className="postProfileImg" src=
-                            { publicFolder + Users.filter((u) => u.id === post.userId)[0].profilePicture }
-                        />
+                        <Link to={`profile/${user.username}`}>
+                            <img className="postProfileImg" src={user.profilePicture ? publicFolder + user.profilePicture : publicFolder + "person/noAvatar.png"} />
+                        </Link>                        
                         <span className="postUsername">
-                            { Users.filter((u) => u.id === post.userId)[0].username }
+                            { user.username}
                         </span>
-                        <span className="postDate">{post.date}</span>
+                        <span className="postDate">{format(post.createdAt)}</span>
                     </div>
                     <div className="postTopRight">
                         <MoreVert />
@@ -33,7 +44,7 @@ const Post = ({ post }) => {
                 
                 <div className="postCenter">
                     { post.desc ? <span className="postText">{post.desc}</span> : null}                    
-                    { post.photo ? <img className="postImg" src={publicFolder + post.photo} alt="" /> : null }                     
+                    { post.img ? <img className="postImg" src={publicFolder + post.img} alt="" /> : null }                     
                 </div>
                 
                 <div className="postBottom">

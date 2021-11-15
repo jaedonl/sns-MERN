@@ -1,16 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect} from 'react'
 import "./Profile.scss" 
 import Topbar from '../../components/topbar/Topbar'
 import Rightbar from '../../components/rightbar/Rightbar'
 import Feed from '../../components/feed/Feed'
 import Sidebar from '../../components/sidebar/Sidebar'
-import {} from "@material-ui/icons"
+import axios from 'axios'
 
 
 const Profile = () => {
     const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER
+    const [user, setUser] = useState({})
 
-    console.log(publicFolder)
+    useEffect(() => {        
+        const fetchUser = async () => {
+            const res = await axios.get(`/users?username=Jaedon Lee`)
+            setUser(res.data)
+        }
+        fetchUser()
+    }, [])
+
     return (
         <>
             <Topbar />
@@ -19,17 +27,26 @@ const Profile = () => {
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                            <img className="profileCoverImg" src={`${publicFolder}profilecover/cover1.jpg`} alt="" />
-                            <img className="profileUserImg" src={`${publicFolder}/person/jaedon_profile.jpg`} alt="" />
+                            {/* <img className="profileCoverImg" src={`${publicFolder}profilecover/cover1.jpg`} alt="" />
+                            <img className="profileUserImg" src={`${publicFolder}/person/jaedon_profile.jpg`} alt="" /> */}
+                            <img className="profileCoverImg" 
+                                src={user.coverPicture  ? publicFolder + user.coverPicture 
+                                                        : publicFolder + 'profilecover/emptyCover' } 
+                                alt="" />
+                            <img className="profileUserImg" 
+                                src={user.profileImg    ? publicFolder + user.profileImg 
+                                                        : publicFolder + 'person/jaedon_profile.jpg' } 
+                                
+                                alt="" />
                         </div>                
                         <div className="profileInfo">
-                            <h4 className="profileInfoName">Jaedon Lee</h4>
-                            <span className="profileInfoDesc">이직이 목표!</span>
+                            <h4 className="profileInfoName">{user.username}</h4>
+                            <span className="profileInfoDesc">{user.desc}</span>
                         </div>                                
                     </div>
                     <div className="profileRightBottom">
-                        <Feed />
-                        <Rightbar profile />
+                        <Feed username="Jaedon Lee" />
+                        <Rightbar user={user} />
                     </div>                    
                 </div>                
             </div>
