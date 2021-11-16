@@ -51,7 +51,7 @@ const Rightbar = ({ user }) => {
                 <div className="birthdayContainer">
                     <Cake className="birthdayImg" htmlColor="tomato" />
                     <span className="birthdayText">
-                        <b>Donald Trump</b> and <b>3 other friends</b> have a birthday today
+                        <b>Yoonjung Ko</b> and <b>3 other friends</b> have a birthday today
                     </span>
                 </div>
 
