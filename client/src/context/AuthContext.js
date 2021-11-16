@@ -9,8 +9,8 @@ const INITIAL_STATE = {
         profilePicture: "person/jaedon_profile.jpg",
         coverPicture: "profilecover/cover1.jpg",
         isAdmin: false,
-        followers: ["618d8d9603f676da63581ca7"],
-        follwoings: ["618d8d9603f676da63581ca7"],
+        followers: [],
+        followings: [],
     },
     isFetching: false,
     error: false
@@ -23,11 +23,11 @@ export const AuthContextProvider = ({children}) => {
 
     return (
         <AuthContext.Provider 
-            value={
-                {user: state.user, 
+            value={{
+                user: state.user, 
                 isFetching: state.isFetching, 
                 error: state.error,
-                dispatch
+                dispatch,
             }}                
         >
             {children}

@@ -11,16 +11,16 @@ import axios from 'axios'
 const Profile = () => {
     const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER
     const [user, setUser] = useState({})
-
     const username = useParams().username
 
-    useEffect(() => {        
+    useEffect(() => {
         const fetchUser = async () => {
-            const res = await axios.get(`/users?username=${username}`)
-            setUser(res.data)
-        }
-        fetchUser()
-    }, [])
+            const res = await axios.get(`/users?username=${username}`);
+            setUser(res.data);
+            
+        };
+        fetchUser();
+      }, [username]);
 
     return (
         <>
@@ -30,15 +30,14 @@ const Profile = () => {
                 <div className="profileRight">
                     <div className="profileRightTop">
                         <div className="profileCover">
-                            {/* <img className="profileCoverImg" src={`${publicFolder}profilecover/cover1.jpg`} alt="" />
-                            <img className="profileUserImg" src={`${publicFolder}/person/jaedon_profile.jpg`} alt="" /> */}
+        
                             <img className="profileCoverImg" 
                                 src={user.coverPicture  ? publicFolder + user.coverPicture 
-                                                        : publicFolder + 'profilecover/emptyCover' } 
+                                                        : publicFolder + 'profilecover/skyblue.jpg' } 
                                 alt="" />
                             <img className="profileUserImg" 
-                                src={user.profileImg    ? publicFolder + user.profileImg 
-                                                        : publicFolder + 'person/jaedon_profile.jpg' } 
+                                src={user.profilePicture    ? publicFolder + user.profilePicture 
+                                                            : publicFolder + 'person/noAvatar.png' } 
                                 
                                 alt="" />
                         </div>                
