@@ -11,6 +11,7 @@ import axios from 'axios'
 const Profile = () => {
     const publicFolder = process.env.REACT_APP_PUBLIC_FOLDER
     const [user, setUser] = useState({})
+    const [test, setTest] = useState({})
     const username = useParams().username
 
     useEffect(() => {

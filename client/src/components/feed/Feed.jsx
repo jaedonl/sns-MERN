@@ -10,7 +10,6 @@ const Feed = ({username}) => {
     const [posts, setPosts] = useState([])  
     const { user } = useContext(AuthContext)
 
-
     useEffect(() => {
         const fetchPosts = async () => {
             const res = username    ? await axios.get('/posts/profile/' + username) 
